@@ -1,0 +1,385 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* custom properties, try and modify */
+
+:root {
+  --ff-primary: "Source Sans Pro", sans-serif;
+  --ff-secondary: "Source Code Pro", monospace;
+
+  --fw-reg: 300;
+  --fw-bold: 900;
+
+  --clr-light: #fff;
+  --clr-dark: #303030;
+  --clr-accent: #16e0bd;
+
+  --fs-h1: 3rem;
+  --fs-h2: 2.25rem;
+  --fs-h3: 1.7rem;
+  --fs-body: 1.25rem;
+
+  /*box shadow under image, kaksi koska varjosta tulee luonnollisempi*/
+  --bs: 0.25em 0.25em 0.75em rgba(0, 0, 0, 0.25),
+    0.125em 0.125em 0.25em rgba(0, 0, 0, 0.15);
+}
+
+/* for bigger screens */
+@media (min-width: 800px) {
+  :root {
+    --fs-h1: 4.5rem;
+    --fs-h2: 3.75rem;
+    --fs-h3: 1.5rem;
+    --fs-body: 1.125rem;
+  }
+}
+/* general styles */
+
+body {
+  background: var(--clr-light);
+  color: var(--clr-dark);
+  margin: 0;
+  font-family: var(--ff-primary);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+
+/* keeps the things from touching the sides, onko 2 em liian iso paddign pienil ruuduil */
+section {
+  padding: 5em 2em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+strong {
+  font-weight: var(--fw-bold);
+}
+
+/* :focus {
+    outline: 3px solid var(--clr-light);
+    outline-offset: 3px;
+} */
+
+/*buttons*/
+.btn {
+  display: inline-block;
+  padding: 0.5em 2.5em;
+  background: var(--clr-light);
+  color: var(--clr-dark);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: var(--fw-bold);
+  transition: transform 200ms ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+}
+
+/* typography */
+
+h1,
+h2,
+h3 {
+  line-height: 1;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+h2 {
+  font-size: var(--fs-h2);
+}
+h3 {
+  font-size: var(--fs-h3);
+}
+
+.section__title {
+  margin-bottom: 0.25em;
+}
+
+.section__title--intro {
+  font-weight: var(--fw-reg);
+}
+
+.section__title--intro strong {
+  /* nimi menee omalle riville */
+  display: block;
+}
+
+.section__subtitle {
+  margin: 0;
+  font-size: var(--fs-h3);
+}
+
+/*alaotsikko ja palkki alle*/
+.section__subtitle--intro,
+.section__subtitle--about {
+  background: var(--clr-accent);
+  padding: 0.25em 1em;
+  font-family: var(--ff-secondary);
+  margin-bottom: 1em; /* vai vähän vähemmän... */
+}
+
+.section__subtitle--work {
+  color: var(--clr-light);
+  font-weight: var(--fw-bold);
+  margin-bottom: 2em;
+}
+
+/* header */
+nav {
+  display: none;
+}
+
+/* intro section */
+
+.intro {
+  position: relative;
+}
+
+.intro__img {
+  box-shadow: var(--bs);
+}
+
+.section__subtitle--intro {
+  display: inline-block; /*teksti ja palkki on pienet pienes ruudus, ei veny */
+}
+
+/* muuttu kun ruutu on 600px suositukset. 300 600 ja 900 muutoksille? */
+@media (min-width: 600px) {
+  .intro {
+    display: grid;
+    /* width ja margin jotta hommeli ei pysy vas reuna, rather in the middle */
+    width: min-content;
+    margin: 0 auto;
+    grid-column-gap: 1em;
+    grid-template-areas:
+      "img title"
+      "img subtitle";
+    /* mincontent kutistaa kuvaaniin paljon kuin voi, max tekee tekstistä suurimman mahdollisen */
+    grid-template-columns: min-content max-content;
+  }
+
+  .intro__img {
+    grid-area: img;
+    min-width: 250px;
+    position: relative;
+    z-index: 2;
+  }
+  /* tän vois laitaa myös typography osioon, mutta on myös layouttia joten ... */
+  .section__subtitle--intro {
+    align-self: start;
+    grid-column: -1 / 1; /* palkki kulkee koko ruudun läpi */
+    grid-row: 2; /* siirtää palkkia kuvan alaapuolelta sen viereen */
+    text-align: right; /* siirtää tekstin palkin oikeaan reunaan */
+    position: relative; /*tämä ja seurrava rivi siirtää palkin näkymään kuvan vas reunasta*/
+    left: -1.5em;
+    width: calc(
+      100% + 1.5em
+    ); /* muuttaa palkin taas meveäksi oiekaan reunaan asti */
+  }
+}
+
+/* My services section */
+
+.my-services {
+  background-color: var(
+    --clr-accent
+  ); /*jos accetnin tilal dark sit tummentaa liikaa?*/
+  background-image: url(./img/setup.jpg);
+  background-size: cover;
+  background-blend-mode: multiply; /* dark yllä tummentaa kuvaa liikaa, VAIHDA MIELUUMMIN TUMMEMPI KUVA?*/
+  color: var(--clr-light);
+  text-align: center;
+}
+
+/*tämä voisi olla typography osiossa..*/
+.section__title--services {
+  color: var(--clr-dark);
+  position: relative;
+}
+
+/* pseudoelement tarvitsee contetn tai ei ilmesty.  viiva otsikon alla */
+.section__title--services::after {
+  content: "";
+  display: block;
+  width: 2em;
+  height: 1px;
+  margin: 0.5em auto 1em;
+  background: var(--clr-light);
+  opacity: 0.5;
+}
+
+/*jotta saada button kauemmas tekstistä*/
+.services {
+  margin-bottom: 4em;
+}
+
+/*puol välissä tekstit näyttää hölmötä levitettynä, laitetaan ne kapeammalle, auto 0 jotta keskellä*/
+.service {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* kun suurempi ruutu tekstit jaottuu viereikkäin kolmeen kolumniin */
+@media (min-width: 800px) {
+  .services {
+    display: flex;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* kun on kaks sericeä vierekkäin tulee margin*/
+  .service + .service {
+    margin-left: 2em;
+  }
+}
+
+/* about me section */
+
+.about-me {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-me__img {
+  box-shadow: var(--bs);
+}
+
+@media (min-width: 600px) {
+  .about-me {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    grid-template-areas:
+      "title img"
+      "subtitle img"
+      "text img";
+    grid-column-gap: 2em;
+  }
+
+  .section__title--about {
+    grid-area: title;
+  }
+
+  .section__subtitle--about {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    position: relative;
+    left: -1em;
+    width: calc(100% + 2em);
+    padding-left: 1em;
+    padding-right: calc(200px + 4em); /*teksti ei overlap img*/
+  }
+
+  .about-me__img {
+    grid-area: img;
+    /*seuraavilla siirretään palkki kuvan alle*/
+    position: relative;
+    z-index: 2;
+  }
+}
+
+/*my work section*/
+
+.my-work {
+  background-color: var(--clr-accent);
+  color: var(--clr-light);
+  text-align: center;
+}
+
+/*kuvat liian pieniä, jaottuvat hassusti kun muuttaa ruudun kokoa*/
+.portfolio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* jos tämä, aina kolem kuvaa vierekkäi, tällöin pitäisi pienemmällä ruudulla laittaa kuvat siirtymään allekkain
+.portfolio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    max-width: 1000px;
+    margin: 0 auto;
+} */
+
+.portfolio__item {
+  background: var(--clr-accent);
+  overflow: hidden;
+  margin-bottom: 30px;
+  /* tsekkaa miltä näyttää dif vieewports */
+  margin-left: 20px;
+  /* width: 30vw; */
+}
+
+.portfolio__img {
+  transition: cubic-bezier(0.5, 0, 0.5, 1);
+  transition-duration: 750ms;
+  opacity: 250ms linear;
+}
+
+.portfolio__item:focus {
+  position: relative;
+  z-index: 2;
+}
+
+.portfolio__img:hover,
+.portfolio__item:focus .portfolio__img {
+  transform: scale(1.2);
+  opacity: 0.5;
+}
+
+/*footer. icons work like fonts*/
+
+.footer {
+  background: #111;
+  color: var(--clr-accent);
+  text-align: center;
+  padding: 2.5em 0;
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer__link {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.footer__link:hover,
+.social-list__link:hover {
+  opacity: 0.7;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+.social-list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 2em 0;
+  padding: 0;
+}
+
+.social-list__item {
+  font-size: var(--fs-h3);
+  margin: 0 0.5em;
+}
+
+.social-list__link {
+  padding: 0.4em;
+}
